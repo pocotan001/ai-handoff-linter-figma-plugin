@@ -30,7 +30,7 @@
 		"@biomejs/biome": "2.5.2",
 		"@figma/plugin-typings": "1.130.0",
 		"@resvg/resvg-js": "2.6.2",
-		"@tailwindcss/vite": "4.3.1",
+		"@tailwindcss/vite": "4.3.2",
 		"@types/react": "19.2.7",
 		"@types/react-dom": "19.2.3",
 		"@vitejs/plugin-react": "6.0.2",
