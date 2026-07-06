@@ -1,12 +1,12 @@
 {
-  "name": "AI Handoff Linter",
-  "id": "1654826913251151097",
-  "api": "1.0.0",
-  "main": "dist/plugin.js",
-  "ui": "dist/ui.html",
-  "editorType": ["figma"],
-  "documentAccess": "dynamic-page",
-  "networkAccess": {
-    "allowedDomains": ["none"]
-  }
+	"name": "AI Handoff Linter",
+	"id": "1654826913251151097",
+	"api": "1.0.0",
+	"main": "dist/plugin.js",
+	"ui": "dist/ui.html",
+	"editorType": ["figma"],
+	"documentAccess": "dynamic-page",
+	"networkAccess": {
+		"allowedDomains": ["none"]
+	}
 }
