@@ -8,7 +8,6 @@
 		"skipLibCheck": true,
 		"types": ["@figma/plugin-typings", "vitest/globals"],
 		"noEmit": true,
-		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./*"]
 		}
