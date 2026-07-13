@@ -127,7 +127,7 @@ Repository integration acceptance additionally requires:
 - `.mcp.json` parses as JSON and `.codex/config.toml` parses as TOML;
 - both MCP files describe the same Bun-based shadcn command and contain no credentials or machine-specific values;
 - `bun install` installs the Lefthook Git hook through the package lifecycle;
-- `lefthook run pre-commit` completes all five non-mutating verification jobs successfully.
+- `lefthook run pre-commit` completes all five verification jobs successfully; the formatting job does not modify files.
 
 ## Non-goals
 
