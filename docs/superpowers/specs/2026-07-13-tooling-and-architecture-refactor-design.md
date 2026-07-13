@@ -45,9 +45,13 @@ Add Lefthook as a development dependency and install hooks through the package l
 
 The build remains one job because the plugin build clears `dist/` before the UI build appends its output; running those two build stages concurrently would introduce a race.
 
+Add a non-mutating `format:check` package script for the hook while retaining the existing write-oriented `format` script for developers. The hook invokes named package scripts rather than duplicating tool commands. Add a `prepare` lifecycle script that runs `lefthook install`, commit the dependency and lockfile update, and verify both a fresh `bun install` and a complete `lefthook run pre-commit` execution.
+
 ### Agent Skills
 
-Stop ignoring `.agents/` and commit the locked shadcn skill at `.agents/skills/shadcn`. Include the repository references needed for both Codex and Claude while keeping `.agents/skills` as the canonical checked-in copy.
+Stop ignoring `.agents/` and commit the locked shadcn skill at `.agents/skills/shadcn`. Codex discovers this canonical repository skill directly. Commit `.claude/skills/shadcn` as a relative symbolic link to `../../.agents/skills/shadcn` so Claude uses the same files without duplication. Do not add a redundant `.codex/skills` copy because Codex's documented repository skill location is `.agents/skills`.
+
+Verify that the canonical `SKILL.md` is tracked, the Claude link resolves inside the repository, and the skills CLI reports the shadcn skill for both `codex` and `claude-code`.
 
 ### MCP
 
@@ -58,11 +62,15 @@ Commit equivalent shadcn MCP definitions for both clients:
 
 Use the repository's Bun-based command convention. Document that Codex only loads project-scoped `.codex/config.toml` from trusted projects.
 
+Parse both configuration files during verification and assert that they define the same `shadcn` stdio server using `bunx --bun shadcn@latest mcp`. Confirm that neither file contains credentials, absolute paths, environment-specific values, or unrelated MCP servers.
+
 ## Refactoring Design
 
 ### Plugin Runtime
 
 Reduce `src/plugin/main.ts` to the plugin bootstrap and Figma event registration. Extract the session lifecycle and message handling into focused plugin modules. The session module owns the current target, selected node IDs, waivers, disabled rules, pick state, timers, and watched page. Supporting modules encapsulate selection/error formatting and lint result publication where that produces independently testable logic.
+
+Before extraction, add characterization tests around the existing orchestration. Cover UI-ready initialization order, outbound message payloads and sequencing, switching targets and waivers, settings persistence and fallback behavior, pick-mode start/cancel/selection, debounced auto-lint and stale-state writes, annotation synchronization, notifications, and recovery from expected storage or token errors. These tests define the observable contract that the extracted modules must retain.
 
 The runtime continues to:
 
@@ -75,6 +83,8 @@ The runtime continues to:
 ### UI Runtime
 
 Reduce `src/ui/main.tsx` to DOM lookup and React mounting. Move the application component into its own module and isolate plugin-message state transitions from rendering. Derived visible issues, summary, and status remain computed from the current result and disabled rules.
+
+Add characterization coverage for UI message transitions before moving them: settings load, lint errors, ignore add/remove, pick state, lint results, disabled-rule filtering, and the initial `ui-ready` post. Prefer tests of extracted pure transition functions for the final structure, but establish expected behavior before changing ownership.
 
 ### Core and Tests
 
@@ -109,6 +119,15 @@ Use the existing 108 tests as the initial regression baseline. Add focused tests
 5. production build.
 
 Also validate that repository-managed skill and MCP paths are present, aliases resolve in TypeScript and Vite, documentation matches actual commands, and generated `dist/` output remains untracked.
+
+Repository integration acceptance additionally requires:
+
+- `.agents/skills/shadcn/SKILL.md` is tracked and `.claude/skills/shadcn` resolves to it;
+- Codex and Claude skill discovery both include shadcn;
+- `.mcp.json` parses as JSON and `.codex/config.toml` parses as TOML;
+- both MCP files describe the same Bun-based shadcn command and contain no credentials or machine-specific values;
+- `bun install` installs the Lefthook Git hook through the package lifecycle;
+- `lefthook run pre-commit` completes all five non-mutating verification jobs successfully.
 
 ## Non-goals
 
