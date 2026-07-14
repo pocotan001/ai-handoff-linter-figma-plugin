@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CONFIGURABLE_RULES } from "../core/rules";
-import { RULE_WEIGHTS, calculateLintScore, getScoreTone } from "./score";
 import type { LintIssue } from "../core/types";
+import { calculateLintScore, getScoreTone, RULE_WEIGHTS } from "./score";
 
 function issue(overrides: Partial<LintIssue>): LintIssue {
 	return {

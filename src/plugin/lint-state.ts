@@ -30,8 +30,12 @@ export function toLintTargetState(
 ): LintTargetState {
 	return {
 		readiness: getLintReadiness(storedState),
-		lastLintedAt: storedState?.lastLintedAt,
-		activeIssueCount: storedState?.activeIssueCount,
+		...(storedState
+			? {
+					lastLintedAt: storedState.lastLintedAt,
+					activeIssueCount: storedState.activeIssueCount,
+				}
+			: {}),
 		devStatus,
 	};
 }

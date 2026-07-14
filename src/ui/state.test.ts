@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { applyIgnoreToResult, removeIgnoreFromResult } from "./state";
 import type { LintResult, LintWaiver } from "../core/types";
+import { applyIgnoreToResult, removeIgnoreFromResult } from "./state";
 
 const result: LintResult = {
 	rootNodeId: "1:1",
@@ -29,7 +29,7 @@ describe("UI waiver state", () => {
 	it("marks a matching issue as waived and updates the status", () => {
 		const updated = applyIgnoreToResult(result, waiver);
 
-		expect(updated.result.issues[0].waiver).toEqual(waiver);
+		expect(updated.result.issues[0]?.waiver).toEqual(waiver);
 		expect(updated.status).toBe("ai-handoff-ready-with-ignored-issues");
 		expect(updated.summary.error).toBe(0);
 	});
@@ -42,7 +42,7 @@ describe("UI waiver state", () => {
 			waiver.nodeId,
 		);
 
-		expect(updated.result.issues[0].waiver).toBeUndefined();
+		expect(updated.result.issues[0]?.waiver).toBeUndefined();
 		expect(updated.status).toBe("needs-design-fix");
 		expect(updated.summary.error).toBe(1);
 	});

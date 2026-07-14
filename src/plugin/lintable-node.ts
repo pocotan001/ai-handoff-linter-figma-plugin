@@ -6,25 +6,33 @@ export function toLintableNode(
 	node: SceneNode,
 	tokenCatalog: DesignToken[],
 ): LintableNode {
+	const layoutMode = getLayoutMode(node);
+	const layoutPositioning = getLayoutPositioning(node);
+	const primaryAxisSizingMode = getPrimaryAxisSizingMode(node);
+	const hasDescription =
+		"description" in node ? node.description.trim().length > 0 : undefined;
+	const autoRename = "autoRename" in node ? node.autoRename : undefined;
+	const textContent = node.type === "TEXT" ? node.characters : undefined;
+	const visible =
+		"visible" in node ? (node as { visible: boolean }).visible : undefined;
+
 	return {
 		id: node.id,
 		name: node.name,
 		type: node.type,
-		layoutMode: getLayoutMode(node),
-		layoutPositioning: getLayoutPositioning(node),
-		primaryAxisSizingMode: getPrimaryAxisSizingMode(node),
+		...(layoutMode === undefined ? {} : { layoutMode }),
+		...(layoutPositioning === undefined ? {} : { layoutPositioning }),
+		...(primaryAxisSizingMode === undefined ? {} : { primaryAxisSizingMode }),
 		children: getLintableChildren(node).map((child) =>
 			toLintableNode(child, tokenCatalog),
 		),
 		hasRawVisualValue: hasRawVisualValue(node),
 		hasTextStyle: hasStyleId(node, "textStyleId"),
 		hasImageFill: getHasImageFill(node),
-		hasDescription:
-			"description" in node ? node.description.trim().length > 0 : undefined,
-		autoRename: "autoRename" in node ? node.autoRename : undefined,
-		textContent: node.type === "TEXT" ? node.characters : undefined,
-		visible:
-			"visible" in node ? (node as { visible: boolean }).visible : undefined,
+		...(hasDescription === undefined ? {} : { hasDescription }),
+		...(autoRename === undefined ? {} : { autoRename }),
+		...(textContent === undefined ? {} : { textContent }),
+		...(visible === undefined ? {} : { visible }),
 		tokenReferences: getTokenReferences(node, tokenCatalog),
 	};
 }

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
 	getLintReadiness,
-	shouldWarnReadyForDev,
 	type StoredLintState,
+	shouldWarnReadyForDev,
 } from "./lint-state";
 
 describe("lint readiness", () => {

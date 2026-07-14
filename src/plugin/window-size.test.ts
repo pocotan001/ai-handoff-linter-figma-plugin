@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-	DEFAULT_PLUGIN_WINDOW_SIZE,
 	clampPluginWindowSize,
+	DEFAULT_PLUGIN_WINDOW_SIZE,
 } from "./window-size";
 
 describe("plugin window sizing", () => {

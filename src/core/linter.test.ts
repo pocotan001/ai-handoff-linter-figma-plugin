@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { applyWaivers, getLintStatus, lintNode } from "./linter";
-import type { LintWaiver, LintableNode } from "./types";
+import type { LintableNode, LintWaiver } from "./types";
 
 function node(overrides: Partial<LintableNode> = {}): LintableNode {
 	return {

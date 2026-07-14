@@ -13,7 +13,7 @@ describe("AI Handoff Ready annotations", () => {
 		});
 
 		expect(annotations).toHaveLength(1);
-		expect(annotations[0].labelMarkdown).toContain(
+		expect(annotations[0]?.labelMarkdown).toContain(
 			AI_HANDOFF_LINTER_ANNOTATION_PREFIX,
 		);
 	});
@@ -25,7 +25,7 @@ describe("AI Handoff Ready annotations", () => {
 		});
 
 		expect(annotations).toHaveLength(1);
-		expect(annotations[0].labelMarkdown).toContain("AI Handoff Ready.");
+		expect(annotations[0]?.labelMarkdown).toContain("AI Handoff Ready.");
 	});
 
 	it("replaces plugin annotations with an AI Handoff Ready annotation when lint passes", () => {
@@ -45,7 +45,7 @@ describe("AI Handoff Ready annotations", () => {
 
 		expect(annotations).toHaveLength(2);
 		expect(annotations[0]).toBe(designerAnnotation);
-		expect(annotations[1].labelMarkdown).toContain("AI Handoff Ready.");
+		expect(annotations[1]?.labelMarkdown).toContain("AI Handoff Ready.");
 	});
 
 	it("replaces stale plugin annotations without touching other annotations", () => {
@@ -65,7 +65,7 @@ describe("AI Handoff Ready annotations", () => {
 
 		expect(annotations).toHaveLength(2);
 		expect(annotations[0]).toBe(designerAnnotation);
-		expect(annotations[1].labelMarkdown).toContain("lint result is stale");
+		expect(annotations[1]?.labelMarkdown).toContain("lint result is stale");
 	});
 
 	it("does not add annotations when the node is not Ready for Dev", () => {

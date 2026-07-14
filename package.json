@@ -9,9 +9,11 @@
 		"build:ui": "vite build --config vite.ui.config.ts",
 		"assets": "bun scripts/build-assets.ts",
 		"format": "biome format --write .",
-		"lint": "biome lint .",
+		"check": "biome check .",
+		"check:write": "biome check . --write",
 		"test": "vitest run",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"prepare": "lefthook install"
 	},
 	"dependencies": {
 		"@base-ui/react": "1.6.0",
@@ -29,11 +31,14 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.5.2",
 		"@figma/plugin-typings": "1.130.0",
+		"@iarna/toml": "2.2.5",
 		"@resvg/resvg-js": "2.6.2",
 		"@tailwindcss/vite": "4.3.2",
+		"@tsconfig/strictest": "2.0.8",
 		"@types/react": "19.2.17",
 		"@types/react-dom": "19.2.3",
 		"@vitejs/plugin-react": "6.0.3",
+		"lefthook": "2.1.10",
 		"tailwindcss": "4.3.2",
 		"typescript": "6.0.3",
 		"vite": "8.1.3",

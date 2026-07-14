@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { isLocalePreference, LOCALE_PREFERENCES } from "../core/locales";
 import type { LintIssue } from "../core/types";
-import { LOCALE_PREFERENCES, isLocalePreference } from "../core/locales";
 import {
 	formatStatus,
 	messages,

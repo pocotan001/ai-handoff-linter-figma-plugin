@@ -1,4 +1,5 @@
 import type { Locale } from "./locales";
+import type { LintRuleId } from "./rules";
 
 export type IssueCopy = {
 	message: string;
@@ -7,7 +8,7 @@ export type IssueCopy = {
 
 // Single source of truth for rule copy. The linter embeds the English copy in
 // each issue; the UI swaps in the copy for the active locale by rule id.
-export const ISSUE_COPY: Record<Locale, Record<string, IssueCopy>> = {
+export const ISSUE_COPY: Record<Locale, Record<LintRuleId, IssueCopy>> = {
 	en: {
 		"target-frame": {
 			message:

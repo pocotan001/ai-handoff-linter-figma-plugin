@@ -1,5 +1,5 @@
-import { shouldWarnReadyForDev } from "./lint-state";
 import type { LintReadiness, LintTargetState } from "../core/types";
+import { shouldWarnReadyForDev } from "./lint-state";
 
 export const AI_HANDOFF_LINTER_ANNOTATION_PREFIX = "AI Handoff Linter:";
 
@@ -36,6 +36,10 @@ export function areAnnotationsEqual(
 
 	return currentAnnotations.every((annotation, index) => {
 		const nextAnnotation = nextAnnotations[index];
+		if (!nextAnnotation) {
+			return false;
+		}
+
 		return (
 			annotation.label === nextAnnotation.label &&
 			annotation.labelMarkdown === nextAnnotation.labelMarkdown &&
