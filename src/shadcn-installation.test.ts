@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const componentsJson = readFileSync(
@@ -11,7 +11,7 @@ const styles = readFileSync(
 );
 const utils = readFileSync(new URL("./lib/utils.ts", import.meta.url), "utf8");
 const dialog = readFileSync(
-	new URL("./components/ui/dialog.tsx", import.meta.url),
+	new URL("./components/dialog.tsx", import.meta.url),
 	"utf8",
 );
 
@@ -25,7 +25,7 @@ describe("shadcn manual installation", () => {
 	});
 
 	it("provides the shadcn cn helper", () => {
-		expect(utils).toContain('import { clsx, type ClassValue } from "clsx";');
+		expect(utils).toContain('import { type ClassValue, clsx } from "clsx";');
 		expect(utils).toContain('import { twMerge } from "tailwind-merge";');
 		expect(utils).toContain("export function cn(...inputs: ClassValue[])");
 	});
@@ -44,18 +44,39 @@ describe("shadcn manual installation", () => {
 			baseColor: "neutral",
 			cssVariables: true,
 		});
-		expect(config.aliases).toMatchObject({
-			components: "@/src/components",
-			utils: "@/src/lib/utils",
-			ui: "@/src/components/ui",
-			lib: "@/src/lib",
-			hooks: "@/src/hooks",
+		expect(config.aliases).toEqual({
+			components: "~/components",
+			utils: "~/lib/utils",
+			ui: "~/components",
+			lib: "~/lib",
+			hooks: "~/hooks",
 		});
 		expect(config.iconLibrary).toBe("lucide");
+	});
+
+	it("uses the strictest TypeScript configuration and source alias", () => {
+		const tsconfig = JSON.parse(
+			readFileSync(new URL("../tsconfig.json", import.meta.url), "utf8"),
+		) as {
+			extends: string;
+			compilerOptions: { paths: Record<string, string[]> };
+		};
+
+		expect(tsconfig.extends).toBe("@tsconfig/strictest/tsconfig.json");
+		expect(tsconfig.compilerOptions.paths).toEqual({
+			"~/*": ["./src/*"],
+		});
 	});
 
 	it("uses Base UI primitives instead of Radix UI primitives", () => {
 		expect(dialog).toContain("@base-ui/react");
 		expect(dialog).not.toContain('"radix-ui"');
+	});
+
+	it("shares the locked shadcn skill with Claude", () => {
+		expect(existsSync(".agents/skills/shadcn/SKILL.md")).toBe(true);
+		expect(realpathSync(".claude/skills/shadcn")).toBe(
+			realpathSync(".agents/skills/shadcn"),
+		);
 	});
 });

@@ -1,15 +1,15 @@
 import { ISSUE_COPY } from "./issue-copy";
-import { walkInstanceInternals, walkScope, type ScopeEntry } from "./lint-walk";
-import { NODE_RULES } from "./node-rules";
 import { isLintTargetType } from "./lint-target";
+import { type ScopeEntry, walkInstanceInternals, walkScope } from "./lint-walk";
+import { NODE_RULES } from "./node-rules";
 import type { LintRuleId } from "./rules";
 import type {
+	LintableNode,
 	LintIssue,
 	LintResult,
 	LintStatus,
 	LintSummary,
 	LintWaiver,
-	LintableNode,
 } from "./types";
 
 export function lintNode(root: LintableNode): LintResult {

@@ -1,10 +1,10 @@
 import { MousePointer2Icon, SettingsIcon } from "lucide-react";
-import { Button } from "@/src/components/ui/button";
-import { Card, CardContent } from "@/src/components/ui/card";
+import { Button } from "~/components/button";
+import { Card, CardContent } from "~/components/card";
 import type { LintIssue, LintStatus, LintSummary } from "../core/types";
 import { CircularScore } from "./circular-score";
 import { formatStatus, type Messages } from "./i18n";
-import { IssueTabs, issueSeverities, type IssueGroup } from "./issue-tabs";
+import { type IssueGroup, IssueTabs, issueSeverities } from "./issue-tabs";
 import { LayerNameMeta } from "./layer-name-meta";
 import { post } from "./post";
 import { calculateLintScore, getScoreTone } from "./score";

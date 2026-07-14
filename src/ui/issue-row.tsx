@@ -4,17 +4,13 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { Button } from "@/src/components/ui/button";
-import { Field, FieldLabel } from "@/src/components/ui/field";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/src/components/ui/popover";
-import { Textarea } from "@/src/components/ui/textarea";
-import { cn } from "@/src/lib/utils";
+import { Button } from "~/components/button";
+import { Field, FieldLabel } from "~/components/field";
+import { Popover, PopoverContent, PopoverTrigger } from "~/components/popover";
+import { Textarea } from "~/components/textarea";
+import { cn } from "~/lib/utils";
 import type { LintIssue } from "../core/types";
-import { translateIssueCopy, type Messages } from "./i18n";
+import { type Messages, translateIssueCopy } from "./i18n";
 import { LayerNameMeta } from "./layer-name-meta";
 import { post } from "./post";
 

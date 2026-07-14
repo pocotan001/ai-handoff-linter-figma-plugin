@@ -1,36 +1,36 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true,
-  },
-  "files": {
-    "ignoreUnknown": true,
-    "includes": ["**", "!.claude", "!src/components/ui"],
-  },
-  "formatter": {
-    "enabled": true,
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "preset": "recommended",
-    },
-    "domains": {
-      "react": "recommended",
-      "test": "recommended",
-    },
-  },
-  "assist": {
-    "enabled": true,
-    "actions": {
-      "recommended": true,
-    },
-  },
-  "css": {
-    "parser": {
-      "tailwindDirectives": true,
-    },
-  },
+	"$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"includes": ["**", "!.agents", "!.claude", "!src/components"]
+	},
+	"formatter": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "recommended"
+		},
+		"domains": {
+			"react": "recommended",
+			"test": "recommended"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"recommended": true
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	}
 }

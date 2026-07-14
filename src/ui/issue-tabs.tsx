@@ -4,12 +4,7 @@ import {
 	TriangleAlertIcon,
 	XCircleIcon,
 } from "lucide-react";
-import {
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger,
-} from "@/src/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/tabs";
 import type { LintIssue, LintSeverity } from "../core/types";
 import { formatSeverity, type Messages } from "./i18n";
 import { IssueRow } from "./issue-row";

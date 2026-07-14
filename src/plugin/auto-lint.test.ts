@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
+	type AutoLintNode,
 	collectNodeIds,
 	shouldAutoLintForDocumentChanges,
-	type AutoLintNode,
 } from "./auto-lint";
 
 describe("auto lint document changes", () => {

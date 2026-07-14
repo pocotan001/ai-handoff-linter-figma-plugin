@@ -163,6 +163,19 @@ Install dependencies:
 bun install
 ```
 
+`bun install` also installs the Lefthook pre-commit hook. The hook verifies
+Biome checks, type checking, tests, and the production build.
+
+Run the full non-mutating verification locally:
+
+```sh
+bunx lefthook run pre-commit
+```
+
+Use `bun run format` to write formatting changes, `bun run check` to run
+Biome's non-mutating formatter, linter, and assist checks, or `bun run
+check:write` to apply Biome's safe fixes.
+
 Run type checking:
 
 ```sh
@@ -182,3 +195,29 @@ bun run build
 ```
 
 The built plugin files are written to `dist/` and referenced by `manifest.json`.
+
+### Architecture
+
+Source imports use the `~/*` alias for `src/*`. The plugin entry point only
+wires Figma events; its mutable runtime state lives in `src/plugin/plugin-session.ts`.
+The UI entry point only mounts React; `src/ui/plugin-state.ts` owns pure
+plugin-message state transitions and `src/ui/app.tsx` renders the application.
+
+### Agent Integration
+
+The locked shadcn skill is checked in at `.agents/skills/shadcn`. Codex reads
+that location directly, while `.claude/skills/shadcn` links Claude Code to the
+same files. The shadcn MCP server is configured for Claude Code in `.mcp.json`
+and for Codex in `.codex/config.toml`; Codex loads the project-scoped file only
+from a trusted project.
+
+These files intentionally contain only the Bun-based shadcn MCP command. Do
+not add credentials, absolute paths, or user-specific settings.
+
+To intentionally update the checked-in skill, run:
+
+```sh
+bunx --bun skills update shadcn --yes
+```
+
+Review the resulting skill and `skills-lock.json` changes before committing.

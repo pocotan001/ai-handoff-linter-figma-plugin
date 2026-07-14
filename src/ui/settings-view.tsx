@@ -1,5 +1,5 @@
 import { ArrowLeftIcon } from "lucide-react";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "~/components/button";
 import {
 	Field,
 	FieldContent,
@@ -8,7 +8,7 @@ import {
 	FieldLabel,
 	FieldLegend,
 	FieldSet,
-} from "@/src/components/ui/field";
+} from "~/components/field";
 import {
 	Select,
 	SelectContent,
@@ -16,8 +16,8 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@/src/components/ui/select";
-import { Switch } from "@/src/components/ui/switch";
+} from "~/components/select";
+import { Switch } from "~/components/switch";
 import { LOCALE_PREFERENCES } from "../core/locales";
 import {
 	CONFIGURABLE_RULES,

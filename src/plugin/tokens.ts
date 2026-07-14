@@ -107,10 +107,12 @@ export function figmaVariableToDesignToken(
 		source: "figma-variable",
 		figma: {
 			id: variable.id,
-			key: variable.key,
 			collectionId: collection.id,
-			collectionKey: collection.key,
 			collectionName: collection.name,
+			...(variable.key === undefined ? {} : { key: variable.key }),
+			...(collection.key === undefined
+				? {}
+				: { collectionKey: collection.key }),
 		},
 	};
 }
@@ -124,7 +126,7 @@ export function figmaStyleToDesignToken(style: FigmaStyleLike): DesignToken {
 		source: "figma-style",
 		figma: {
 			id: style.id,
-			key: style.key,
+			...(style.key === undefined ? {} : { key: style.key }),
 		},
 	};
 }

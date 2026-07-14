@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
+import { messages } from "../ui/i18n";
 import {
 	CONFIGURABLE_RULES,
 	DEFAULT_DISABLED_RULES,
-	LINT_RULES,
 	formatRuleId,
 	getRuleDescription,
+	LINT_RULES,
 } from "./rules";
-import { messages } from "../ui/i18n";
 
 describe("lint rule registry", () => {
 	it("keeps configurable rule ids unique", () => {
