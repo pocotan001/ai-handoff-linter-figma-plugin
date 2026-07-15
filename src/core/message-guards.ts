@@ -8,8 +8,12 @@ export function isUiToPluginMessage(
 		return false;
 	}
 
+	if (value.type === "ui-ready") {
+		const { navigatorLanguage } = value;
+		return isString(navigatorLanguage);
+	}
+
 	if (
-		value.type === "ui-ready" ||
 		value.type === "start-pick-target" ||
 		value.type === "cancel-pick-target"
 	) {

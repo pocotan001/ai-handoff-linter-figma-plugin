@@ -36,7 +36,7 @@ export function App() {
 
 		// Tell the plugin the handler above is registered; the plugin defers
 		// settings-loaded and the initial lint until this arrives.
-		post({ type: "ui-ready" });
+		post({ type: "ui-ready", navigatorLanguage: navigator.language });
 
 		return () => {
 			window.onmessage = null;

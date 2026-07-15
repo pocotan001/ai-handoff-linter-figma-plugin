@@ -6,13 +6,13 @@ describe("PluginSession", () => {
 		vi.unstubAllGlobals();
 	});
 
-	it("defers initialization messages until the UI reports ready", async () => {
+	it("does not report an error when initialized without a lint target", async () => {
 		const runtime = createRuntime();
 		const session = new PluginSession(runtime.figma);
 
 		expect(runtime.postMessage).not.toHaveBeenCalled();
 
-		await session.handleMessage({ type: "ui-ready" });
+		await session.handleMessage({ type: "ui-ready", navigatorLanguage: "en" });
 
 		expect(runtime.postMessage.mock.calls.map(([message]) => message)).toEqual([
 			{
@@ -20,15 +20,10 @@ describe("PluginSession", () => {
 				language: "en",
 				disabledRules: [],
 			},
-			{
-				type: "lint-error",
-				message:
-					"Select exactly one section, frame, component, component set, or instance before running lint. Current selection: none.",
-			},
 		]);
 	});
 
-	it("starts and cancels target picking without linting", async () => {
+	it("starts and cancels target picking without notifications", async () => {
 		const runtime = createRuntime();
 		const session = new PluginSession(runtime.figma);
 
@@ -40,9 +35,7 @@ describe("PluginSession", () => {
 			{ type: "pick-state", picking: true },
 			{ type: "pick-state", picking: false },
 		]);
-		expect(runtime.notify).toHaveBeenCalledWith(
-			"Select a section, frame, component, component set, or instance to lint.",
-		);
+		expect(runtime.notify).not.toHaveBeenCalled();
 	});
 
 	it("clamps resize requests and saves settings without a live target", async () => {

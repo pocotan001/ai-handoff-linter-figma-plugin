@@ -29,8 +29,6 @@ describe("PluginSession orchestration", () => {
 				waiver: expect.objectContaining({ ruleId: "root-auto-layout" }),
 			}),
 		);
-		expect(runtime.notify).toHaveBeenLastCalledWith("Ignore reason saved.");
-
 		await session.handleMessage({
 			type: "remove-ignore",
 			ruleId: "root-auto-layout",
@@ -86,6 +84,36 @@ describe("PluginSession orchestration", () => {
 		);
 	});
 
+	it("stops picking with an error notification after an unsupported selection", async () => {
+		const text = node({ type: "TEXT" });
+		const target = readyTarget();
+		const runtime = createRuntime();
+		const session = new PluginSession(runtime.figma);
+
+		await session.handleMessage({ type: "start-pick-target" });
+		runtime.postMessage.mockClear();
+		runtime.notify.mockClear();
+		runtime.page.selection = [text];
+		await session.handleSelectionChange();
+
+		expect(runtime.postMessage).toHaveBeenCalledWith({
+			type: "pick-state",
+			picking: false,
+		});
+		expect(runtime.notify).toHaveBeenCalledWith(expect.any(String), {
+			error: true,
+			timeout: 5_000,
+		});
+
+		await session.handleMessage({ type: "start-pick-target" });
+		runtime.page.selection = [target];
+		await session.handleSelectionChange();
+
+		expect(runtime.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({ type: "lint-result" }),
+		);
+	});
+
 	it("marks lint state stale and debounces a relevant node change", async () => {
 		vi.useFakeTimers();
 		const target = readyTarget();
@@ -130,7 +158,7 @@ describe("PluginSession orchestration", () => {
 		const session = new PluginSession(runtime.figma);
 
 		await pickTarget(session, runtime.page, target);
-		await session.handleMessage({ type: "ui-ready" });
+		await session.handleMessage({ type: "ui-ready", navigatorLanguage: "en" });
 		await Promise.resolve();
 
 		expect(target.annotations).toEqual([
@@ -240,6 +268,7 @@ function readyTarget(overrides: Record<string, unknown> = {}): SceneNode {
 
 function node(overrides: Record<string, unknown> = {}): SceneNode {
 	const data = new Map<string, string>();
+	const sharedData = new Map<string, string>();
 	return {
 		id: "1:1",
 		name: "Layer",
@@ -249,6 +278,10 @@ function node(overrides: Record<string, unknown> = {}): SceneNode {
 		visible: true,
 		getPluginData: (key: string) => data.get(key) ?? "",
 		setPluginData: (key: string, value: string) => data.set(key, value),
+		getSharedPluginData: (namespace: string, key: string) =>
+			sharedData.get(`${namespace}:${key}`) ?? "",
+		setSharedPluginData: (namespace: string, key: string, value: string) =>
+			sharedData.set(`${namespace}:${key}`, value),
 		...overrides,
 	} as unknown as SceneNode;
 }

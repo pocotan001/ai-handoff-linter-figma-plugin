@@ -28,6 +28,24 @@ Use AI Handoff Linter before sending a Figma design to an AI coding workflow, es
 - layer names and hierarchy need to communicate implementation intent,
 - you want to reduce ambiguity before Figma-to-code generation.
 
+## Companion Skill: Figma AI Handoff to React
+
+This repository includes `figma-ai-handoff-to-react`, a companion skill for
+turning an **AI Handoff Ready** Figma node into maintainable React and
+TypeScript. Before collecting design context or editing code, the skill checks
+the Linter's machine-readable handoff state through Figma MCP. It stops when
+the result is missing, stale, has active issues, or contains ignored issues.
+
+Install it with:
+
+```sh
+npx skills add pocotan001/ai-handoff-linter-figma-plugin --skill figma-ai-handoff-to-react
+```
+
+Then give your coding agent a Figma URL or select the target node through
+Figma MCP. The skill follows the target repository's conventions and reports
+the implementation boundary, validation, assumptions, and remaining risks.
+
 ## Install
 
 ### Install From Source

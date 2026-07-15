@@ -1,0 +1,39 @@
+{
+	"skill_name": "figma-ai-handoff-to-react",
+	"evals": [
+		{
+			"id": 1,
+			"prompt": "Implement the Button component at https://www.figma.com/design/example/Library?node-id=42-15 in this React and TypeScript repository. The component set has Size=sm|md and State=default|disabled. AI Handoff Linter has run on node 42:15. Use remote Figma MCP to verify the shared lint handoff state before implementation. The default state contains an icon-only action as well as a labeled action. Match the project conventions and tell me how you validated keyboard behavior.",
+			"expected_output": "The agent verifies the shared lint handoff state before retrieving design context, then inspects local conventions and Figma evidence, maps named variants to typed component props, uses accessible controls, and reports project and visual validation.",
+			"files": [],
+			"expectations": [
+				"Uses remote Figma MCP to verify the matching shared AI Handoff Ready state before retrieving design context.",
+				"Reads project instructions and existing primitives before deciding whether to create a component.",
+				"Does not invent unspecified interactive states and verifies keyboard behavior for evidenced controls.",
+				"Ends with the required completion-report fields."
+			]
+		},
+		{
+			"id": 2,
+			"prompt": "Build this desktop dashboard frame in the current React repository: https://www.figma.com/design/example/Dashboard?node-id=11-4. It has one 1440px screenshot, vertical Auto Layout, and content-driven card heights. Remote Figma MCP finds a shared lint handoff record for node 11:3 from an older revision. Use existing local CSS conventions and make the screen responsive where the design structure supports it.",
+			"expected_output": "The agent rejects the mismatched shared lint state before it starts implementation and asks for AI Handoff Linter to run on node 11:4.",
+			"files": [],
+			"expectations": [
+				"Rejects the mismatched shared lint state as ineligible implementation evidence.",
+				"Does not retrieve design context or edit code after the linter gate fails.",
+				"Requests that AI Handoff Linter run on the exact target."
+			]
+		},
+		{
+			"id": 3,
+			"prompt": "Implement the profile card at https://www.figma.com/design/example/Profile?node-id=7-9. Remote Figma MCP verifies a shared AI Handoff Ready state for node 7:9. Figma MCP returns valid structure and a screenshot, but fetching the required portrait asset fails with an authorization error. The target project has no alternate copy of the image. What should you change and what do you need from me?",
+			"expected_output": "The agent stops instead of substituting an unrelated asset, explains the asset-access blocker, and requests concrete next steps while preserving the validated design evidence.",
+			"files": [],
+			"expectations": [
+				"Does not replace the missing asset with a public or placeholder asset without approval.",
+				"Does not claim a complete visual implementation.",
+				"Provides at most three concrete inputs or decisions needed to continue."
+			]
+		}
+	]
+}
