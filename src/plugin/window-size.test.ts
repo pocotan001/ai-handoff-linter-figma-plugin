@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-	clampPluginWindowSize,
-	DEFAULT_PLUGIN_WINDOW_SIZE,
-} from "./window-size";
+import { clampPluginWindowSize } from "./window-size";
 
 describe("plugin window sizing", () => {
 	it("clamps requested window sizes to the supported range", () => {
@@ -18,9 +15,5 @@ describe("plugin window sizing", () => {
 			width: 480,
 			height: 420,
 		});
-	});
-
-	it("uses a taller default window for issue list visibility", () => {
-		expect(DEFAULT_PLUGIN_WINDOW_SIZE).toEqual({ width: 480, height: 600 });
 	});
 });

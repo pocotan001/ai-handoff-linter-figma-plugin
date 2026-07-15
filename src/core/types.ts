@@ -152,6 +152,7 @@ export type PluginToUiMessage =
 export type UiToPluginMessage =
 	| {
 			type: "ui-ready";
+			navigatorLanguage: string;
 	  }
 	| {
 			type: "select-node";

@@ -4,6 +4,8 @@ import type { StoredLintState } from "./lint-state";
 
 const WAIVERS_KEY = "code-ready-lint:waivers";
 const LINT_STATE_KEY = "code-ready-lint:state";
+export const AI_HANDOFF_LINTER_SHARED_NAMESPACE = "ai_handoff_linter";
+export const AI_HANDOFF_LINTER_SHARED_STATE_KEY = "lint-state-v1";
 const SETTINGS_KEY = "code-ready-linter:settings";
 const LEGACY_SETTINGS_LANGUAGE_KEY = "settings:language";
 const LEGACY_SETTINGS_DISABLED_RULES_KEY = "settings:disabled-rules";
@@ -35,6 +37,11 @@ export function readLintState(node: BaseNode): StoredLintState | null {
 
 export function writeLintState(node: BaseNode, state: StoredLintState): void {
 	node.setPluginData(LINT_STATE_KEY, JSON.stringify(state));
+	node.setSharedPluginData(
+		AI_HANDOFF_LINTER_SHARED_NAMESPACE,
+		AI_HANDOFF_LINTER_SHARED_STATE_KEY,
+		JSON.stringify({ version: 1, targetNodeId: node.id, ...state }),
+	);
 }
 
 export function getDevStatusType(node: BaseNode): DevStatusType | null {

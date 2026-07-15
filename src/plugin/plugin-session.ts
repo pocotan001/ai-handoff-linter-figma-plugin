@@ -4,6 +4,7 @@ import {
 	lintNode,
 	summarizeIssues,
 } from "../core/linter";
+import type { Locale } from "../core/locales";
 import {
 	DEFAULT_SETTINGS,
 	normalizeSettings,
@@ -50,6 +51,8 @@ export class PluginSession {
 	private pickingTarget = false;
 	private autoLintTimer: ReturnType<typeof setTimeout> | null = null;
 	private nodeChangePage: PageNode | null = null;
+	private locale: Locale = "en";
+	private navigatorLanguage = "en";
 
 	constructor(private readonly figmaApi: PluginAPI) {}
 
@@ -57,6 +60,7 @@ export class PluginSession {
 		// The UI signals readiness after registering its message handler; posting
 		// settings or lint results before that would silently drop the messages.
 		if (message.type === "ui-ready") {
+			this.navigatorLanguage = message.navigatorLanguage;
 			await this.initializePlugin();
 			return;
 		}
@@ -79,7 +83,11 @@ export class PluginSession {
 
 			await this.rerunCurrentTarget();
 			this.figmaApi.ui.postMessage({ type: "ignore-saved", waiver });
-			this.figmaApi.notify("Ignore reason saved.");
+			this.figmaApi.notify(
+				this.locale === "ja"
+					? "無視する理由を保存しました。"
+					: "Ignore reason saved.",
+			);
 			return;
 		}
 
@@ -120,6 +128,10 @@ export class PluginSession {
 				disabledRules: message.disabledRules,
 			});
 			this.currentDisabledRules = settings.disabledRules;
+			this.locale = resolvePluginLocale(
+				settings.language,
+				this.navigatorLanguage,
+			);
 			await writeSettings(settings);
 			this.figmaApi.ui.postMessage({
 				type: "settings-loaded",
@@ -144,7 +156,12 @@ export class PluginSession {
 				return;
 			}
 
-			this.postError(getSelectionErrorMessage(selection));
+			this.pickingTarget = false;
+			this.figmaApi.ui.postMessage({ type: "pick-state", picking: false });
+			this.figmaApi.notify(getSelectionErrorMessage(selection, this.locale), {
+				error: true,
+				timeout: 5_000,
+			});
 			return;
 		}
 
@@ -168,6 +185,10 @@ export class PluginSession {
 	private async initializePlugin(): Promise<void> {
 		const settings = await this.loadSettingsSafely();
 		this.currentDisabledRules = settings.disabledRules;
+		this.locale = resolvePluginLocale(
+			settings.language,
+			this.navigatorLanguage,
+		);
 		this.figmaApi.ui.postMessage({
 			type: "settings-loaded",
 			language: settings.language,
@@ -191,9 +212,6 @@ export class PluginSession {
 		const selection = this.figmaApi.currentPage.selection;
 		const target = getSelectionTarget(selection);
 		if (!target) {
-			this.postError(
-				getSelectionErrorMessage(selection, "before running lint"),
-			);
 			return;
 		}
 
@@ -204,9 +222,6 @@ export class PluginSession {
 		this.figmaApi.currentPage.selection = [];
 		this.pickingTarget = true;
 		this.figmaApi.ui.postMessage({ type: "pick-state", picking: true });
-		this.figmaApi.notify(
-			"Select a section, frame, component, component set, or instance to lint.",
-		);
 	}
 
 	private async lintSelectionTarget(target: SceneNode): Promise<void> {
@@ -412,6 +427,17 @@ export class PluginSession {
 	private postError(message: string): void {
 		this.figmaApi.ui.postMessage({ type: "lint-error", message });
 	}
+}
+
+function resolvePluginLocale(
+	language: UiSettings["language"],
+	navigatorLanguage: string,
+): Locale {
+	if (language !== "auto") {
+		return language;
+	}
+
+	return navigatorLanguage.toLowerCase().startsWith("ja") ? "ja" : "en";
 }
 
 type AnnotationTargetNode = SceneNode & {
