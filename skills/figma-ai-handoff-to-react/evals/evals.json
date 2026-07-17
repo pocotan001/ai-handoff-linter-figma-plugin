@@ -4,7 +4,7 @@
 		{
 			"id": 1,
 			"prompt": "Implement the Button component at https://www.figma.com/design/example/Library?node-id=42-15 in this React and TypeScript repository. The component set has Size=sm|md and State=default|disabled. AI Handoff Linter has run on node 42:15. Normalize the URL form `42-15` to the MCP/API form `42:15` and use the latter for comparisons. Use remote Figma MCP to verify the shared lint handoff state before implementation. The default state contains an icon-only action as well as a labeled action. Match the project conventions and tell me how you validated keyboard behavior.",
-			"expected_output": "The agent verifies the shared lint handoff state before retrieving design context, then inspects local conventions and Figma evidence, maps named variants to typed component props, uses accessible controls, and reports project and visual validation.",
+			"expected_output": "The agent verifies the shared lint handoff state before retrieving design context, then inspects local conventions and Figma evidence, maps named variants to typed component props, gives the icon-only action an accessible name, keyboard operability, and a visible focus indicator, and reports project and visual validation.",
 			"files": [],
 			"expectations": [
 				"Uses remote Figma MCP to verify the matching shared AI Handoff Ready state before retrieving design context.",
