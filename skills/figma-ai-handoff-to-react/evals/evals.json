@@ -3,7 +3,7 @@
 	"evals": [
 		{
 			"id": 1,
-			"prompt": "Implement the Button component at https://www.figma.com/design/example/Library?node-id=42-15 in this React and TypeScript repository. The component set has Size=sm|md and State=default|disabled. AI Handoff Linter has run on node 42:15. Use remote Figma MCP to verify the shared lint handoff state before implementation. The default state contains an icon-only action as well as a labeled action. Match the project conventions and tell me how you validated keyboard behavior.",
+			"prompt": "Implement the Button component at https://www.figma.com/design/example/Library?node-id=42-15 in this React and TypeScript repository. The component set has Size=sm|md and State=default|disabled. AI Handoff Linter has run on node 42:15. Normalize the URL form `42-15` to the MCP/API form `42:15` and use the latter for comparisons. Use remote Figma MCP to verify the shared lint handoff state before implementation. The default state contains an icon-only action as well as a labeled action. Match the project conventions and tell me how you validated keyboard behavior.",
 			"expected_output": "The agent verifies the shared lint handoff state before retrieving design context, then inspects local conventions and Figma evidence, maps named variants to typed component props, uses accessible controls, and reports project and visual validation.",
 			"files": [],
 			"expectations": [
@@ -15,7 +15,7 @@
 		},
 		{
 			"id": 2,
-			"prompt": "Build this desktop dashboard frame in the current React repository: https://www.figma.com/design/example/Dashboard?node-id=11-4. It has one 1440px screenshot, vertical Auto Layout, and content-driven card heights. Remote Figma MCP finds a shared lint handoff record for node 11:3 from an older revision. Use existing local CSS conventions and make the screen responsive where the design structure supports it.",
+			"prompt": "Build this desktop dashboard frame in the current React repository: https://www.figma.com/design/example/Dashboard?node-id=11-4. It has one 1440px screenshot, vertical Auto Layout, and content-driven card heights. Remote Figma MCP finds a shared lint handoff record for non-ancestor node 11:3 from an older revision. Use existing local CSS conventions and make the screen responsive where the design structure supports it.",
 			"expected_output": "The agent rejects the mismatched shared lint state before it starts implementation and asks for AI Handoff Linter to run on node 11:4.",
 			"files": [],
 			"expectations": [
