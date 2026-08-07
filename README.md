@@ -15,6 +15,7 @@ The plugin is designed for teams that want a lightweight quality gate before ask
 - Lets you ignore an issue with a reason when the design intentionally breaks a rule.
 - Reruns lint automatically after relevant document changes.
 - Adds Figma Dev Mode annotations for AI Handoff Ready and Ready for Dev warnings.
+- Packages active findings into a prompt for Figma Design Agent to repair on the canvas.
 - Supports English and Japanese UI copy.
 - Allows individual lint rules to be enabled or disabled.
 
@@ -73,10 +74,28 @@ the implementation boundary, validation, assumptions, and remaining risks.
 2. Run **AI Handoff Linter**.
 3. Review the score and issue list.
 4. Click an issue to select the affected layer in Figma.
-5. Fix the design issue, or ignore it with a reason when it is intentional.
-6. Rerun lint, or keep editing and let the plugin rerun automatically.
+5. For semantic or structural fixes, click **Fix with Figma Agent**, copy the prompt, and paste it into Figma Design Agent.
+6. Fix the design issue manually, with Figma Agent, or ignore it with a reason when it is intentional.
+7. Keep editing and let the plugin rerun automatically.
 
 When there are no active issues, the status becomes **AI Handoff Ready**.
+
+## Figma Design Agent Repair
+
+The plugin keeps deterministic checks and scoring in the plugin, while Figma
+Design Agent handles semantic work such as naming, descriptions, and ambiguous
+structure changes.
+
+When active findings exist, **Fix with Figma Agent** selects the lint target
+and opens a prompt containing the current localized findings and guardrails.
+Copy it into Figma Design Agent and review the changes on the canvas. The
+plugin reruns lint automatically. The prompt asks the agent to preserve the visual result and existing
+design-system choices, avoid unrelated changes, and explain anything it leaves
+unchanged.
+
+For a repeatable team workflow, save those guardrails as a custom Figma Agent
+skill. The plugin continues to provide the target-specific findings for each
+run, so the skill does not need to duplicate them.
 
 ## Lint Targets
 
@@ -167,7 +186,8 @@ Settings are saved locally for the plugin UI.
 
 ## Limitations
 
-AI Handoff Linter does not automatically fix designs.
+AI Handoff Linter does not directly invoke or control Figma Design Agent. A
+designer still reviews the generated prompt and the agent's changes.
 
 It also cannot prevent designers from using Figma's standard Ready for Dev action without running the plugin first. It can warn through annotations after lint has run, but a fully enforced workflow would require an external integration such as a webhook service.
 

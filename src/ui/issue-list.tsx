@@ -3,6 +3,7 @@ import { Button } from "~/components/button";
 import { Card, CardContent } from "~/components/card";
 import type { LintIssue, LintStatus, LintSummary } from "../core/types";
 import { CircularScore } from "./circular-score";
+import { FigmaAgentRepair } from "./figma-agent-repair";
 import { formatStatus, type Messages } from "./i18n";
 import { type IssueGroup, IssueTabs, issueSeverities } from "./issue-tabs";
 import { LayerNameMeta } from "./layer-name-meta";
@@ -17,6 +18,7 @@ export function IssueList({
 	onOpenSettings,
 	status,
 	summary,
+	targetId,
 	targetName,
 	t,
 }: {
@@ -27,6 +29,7 @@ export function IssueList({
 	onOpenSettings: () => void;
 	status: LintStatus | null;
 	summary: LintSummary;
+	targetId: string | null;
 	targetName: string | null;
 	t: Messages;
 }) {
@@ -68,6 +71,14 @@ export function IssueList({
 						<MousePointer2Icon data-icon="inline-start" aria-hidden="true" />
 						<span>{t.runLint}</span>
 					</Button>
+					{activeIssues.length > 0 && lintTargetName && targetId ? (
+						<FigmaAgentRepair
+							issues={activeIssues}
+							targetId={targetId}
+							targetName={lintTargetName}
+							t={t}
+						/>
+					) : null}
 					<Button
 						aria-label={t.settings}
 						size="icon"

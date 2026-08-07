@@ -17,6 +17,20 @@ describe("plugin message guards", () => {
 				height: 500,
 			}),
 		).toBe(false);
+		expect(
+			isUiToPluginMessage({
+				type: "notify",
+				message: "Copied.",
+				error: false,
+			}),
+		).toBe(true);
+		expect(
+			isUiToPluginMessage({
+				type: "notify",
+				message: "Copied.",
+				error: "false",
+			}),
+		).toBe(false);
 	});
 
 	it("rejects malformed plugin responses before they reach rendering", () => {

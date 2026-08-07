@@ -27,6 +27,17 @@ export type Messages = {
 	ignoredReason: (reason: string) => string;
 	resizeWindow: string;
 	rules: string;
+	fixWithFigmaAgent: string;
+	figmaAgentRepairDescription: string;
+	agentPrompt: string;
+	copyAgentPrompt: string;
+	agentPromptCopied: string;
+	agentPromptCopyFailed: string;
+	agentRecommendation: string;
+	agentPromptIntro: (targetName: string) => string;
+	agentPromptGuardrails: string;
+	agentPromptIssues: string;
+	agentPromptFinish: string;
 	issueCopy: Record<string, IssueCopy>;
 };
 
@@ -60,6 +71,21 @@ export const messages: Record<Locale, Messages> = {
 		ignoredReason: (reason) => `Ignored because: ${reason}`,
 		resizeWindow: "Resize window",
 		rules: "Rules",
+		fixWithFigmaAgent: "Fix with Figma Agent",
+		figmaAgentRepairDescription:
+			"Copy the current lint findings and paste them into Figma Agent.",
+		agentPrompt: "Figma Agent prompt",
+		copyAgentPrompt: "Copy prompt",
+		agentPromptCopied: "Copied",
+		agentPromptCopyFailed: "Copy failed. Select the text and copy it manually.",
+		agentRecommendation: "Recommendation",
+		agentPromptIntro: (targetName) =>
+			`Prepare the selected “${targetName}” for AI coding handoff. Fix the lint findings below directly in this Figma Design file.`,
+		agentPromptGuardrails:
+			"Preserve the visual result, existing design-system choices, and component intent. Follow the file's existing naming conventions. Make a change only when you can infer its intent confidently; otherwise, leave it unchanged and explain why. Fix instance-internal issues in the main component, not the instance. Do not make unrelated changes.",
+		agentPromptIssues: "Lint findings:",
+		agentPromptFinish:
+			"When you finish, summarize the changes and any findings you intentionally left unchanged.",
 		issueCopy: ISSUE_COPY.en,
 	},
 	ja: {
@@ -92,6 +118,22 @@ export const messages: Record<Locale, Messages> = {
 		ignoredReason: (reason) => `無視した理由：${reason}`,
 		resizeWindow: "ウィンドウサイズを変更",
 		rules: "ルール",
+		fixWithFigmaAgent: "Figma Agent で修正",
+		figmaAgentRepairDescription:
+			"現在の Lint 指摘をコピーして Figma Agent に貼り付けます。",
+		agentPrompt: "Figma Agent 用プロンプト",
+		copyAgentPrompt: "プロンプトをコピー",
+		agentPromptCopied: "コピーしました",
+		agentPromptCopyFailed:
+			"コピーできませんでした。本文を選択して手動でコピーしてください。",
+		agentRecommendation: "推奨対応",
+		agentPromptIntro: (targetName) =>
+			`選択中の「${targetName}」を、AI コーディングに渡せる状態に整えてください。以下の Lint 指摘を、この Figma Design ファイル上で直接修正してください。`,
+		agentPromptGuardrails:
+			"見た目、既存のデザインシステム、コンポーネントの意図を維持してください。ファイル内の既存の命名規則を優先してください。意図に確信が持てる場合だけ変更し、不確かな場合は変更せず理由を説明してください。インスタンス内部の指摘はインスタンスではなくメインコンポーネントで修正してください。指摘と無関係な変更はしないでください。",
+		agentPromptIssues: "Lint 指摘:",
+		agentPromptFinish:
+			"完了後、変更内容と、意図的に変更しなかった指摘を要約してください。",
 		issueCopy: ISSUE_COPY.ja,
 	},
 };
