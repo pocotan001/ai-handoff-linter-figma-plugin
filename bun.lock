@@ -19,7 +19,7 @@
       },
       "devDependencies": {
         "@biomejs/biome": "2.5.3",
-        "@figma/plugin-typings": "1.130.0",
+        "@figma/plugin-typings": "1.131.0",
         "@iarna/toml": "2.2.5",
         "@resvg/resvg-js": "2.6.2",
         "@tailwindcss/vite": "4.3.2",
@@ -126,7 +126,7 @@
 
     "@emnapi/wasi-threads": ["@emnapi/wasi-threads@1.2.2", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-c95qOXkHdydNKhscBTebqEC1CVAZpyqOfVfBzQ1qgzyl3gfeldUjIggDbIZgDKsHLgnsM+igH7TJ/eAasaVuMA=="],
 
-    "@figma/plugin-typings": ["@figma/plugin-typings@1.130.0", "", {}, "sha512-kz+eU4TXBr99YrMyF2/WtcsdS6K4Ksy3datZZtuCUUSDPRknJAVLZpjhBESCd0tCtHRWKeo4l/I7Aze6lHB52A=="],
+    "@figma/plugin-typings": ["@figma/plugin-typings@1.131.0", "", {}, "sha512-XBTPNGc65myupitMaeemyiF/ir1jn/EXXTdoGUCEVCfVB6KPQUy+gbfHbnC+QQiHxdw/Naikdx+9v/u4d49gfA=="],
 
     "@floating-ui/core": ["@floating-ui/core@1.7.5", "", { "dependencies": { "@floating-ui/utils": "^0.2.11" } }, "sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ=="],
 
