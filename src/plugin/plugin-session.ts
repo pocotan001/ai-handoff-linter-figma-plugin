@@ -70,6 +70,14 @@ export class PluginSession {
 			return;
 		}
 
+		if (message.type === "notify") {
+			this.figmaApi.notify(
+				message.message,
+				message.error ? { error: true } : {},
+			);
+			return;
+		}
+
 		if (message.type === "ignore-issue") {
 			const waiver = this.addIgnore(
 				message.ruleId,

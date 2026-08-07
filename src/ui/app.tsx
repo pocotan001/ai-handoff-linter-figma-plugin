@@ -80,6 +80,7 @@ export function App() {
 						onOpenSettings={() => setAppView("settings")}
 						status={status}
 						summary={summary}
+						targetId={view.result?.rootNodeId ?? null}
 						targetName={view.result?.rootNodeName ?? null}
 						t={t}
 					/>

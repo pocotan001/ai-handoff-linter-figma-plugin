@@ -38,6 +38,13 @@ export function isUiToPluginMessage(
 		return isNumber(value.width) && isNumber(value.height);
 	}
 
+	if (value.type === "notify") {
+		return (
+			isString(value.message) &&
+			(value.error === undefined || isBoolean(value.error))
+		);
+	}
+
 	return (
 		value.type === "save-settings" &&
 		isLocalePreference(value.language) &&
@@ -219,4 +226,8 @@ function isStringArray(value: unknown): value is string[] {
 
 function isNumber(value: unknown): value is number {
 	return typeof value === "number" && Number.isFinite(value);
+}
+
+function isBoolean(value: unknown): value is boolean {
+	return typeof value === "boolean";
 }

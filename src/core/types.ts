@@ -181,6 +181,11 @@ export type UiToPluginMessage =
 			height: number;
 	  }
 	| {
+			type: "notify";
+			message: string;
+			error?: boolean;
+	  }
+	| {
 			type: "save-settings";
 			language: "auto" | "en" | "ja";
 			disabledRules: string[];
