@@ -33,7 +33,7 @@
 		"@figma/plugin-typings": "1.131.0",
 		"@iarna/toml": "2.2.5",
 		"@resvg/resvg-js": "2.6.2",
-		"@tailwindcss/vite": "4.3.2",
+		"@tailwindcss/vite": "4.3.3",
 		"@tsconfig/strictest": "2.0.8",
 		"@types/react": "19.2.17",
 		"@types/react-dom": "19.2.3",
