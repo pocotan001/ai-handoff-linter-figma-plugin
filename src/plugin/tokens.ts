@@ -16,7 +16,7 @@ type FigmaVariableLike = {
 	id: string;
 	key?: string;
 	name: string;
-	resolvedType: "BOOLEAN" | "COLOR" | "FLOAT" | "STRING";
+	resolvedType: VariableResolvedDataType;
 	variableCollectionId: string;
 	valuesByMode: Record<string, unknown>;
 };
