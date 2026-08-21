@@ -12,20 +12,20 @@ import type {
 	LintWaiver,
 } from "./types";
 
-export function lintNode(root: LintableNode): LintResult {
+export function lintNode(root: LintableNode, hasTextStyles = true): LintResult {
 	const issues: LintIssue[] = [];
 
 	collectRootIssues(root, issues);
 
 	const scope = walkScope(root);
 	for (const entry of scope.entries) {
-		collectEntryIssues(entry, root, issues);
+		collectEntryIssues(entry, root, issues, hasTextStyles);
 	}
 
 	// Issues inside an instance can only be fixed on its main component, so
 	// they are reported as a single review item on the instance itself.
 	for (const instance of scope.instanceRoots) {
-		if (hasInternalIssues(instance, root)) {
+		if (hasInternalIssues(instance, root, hasTextStyles)) {
 			issues.push(makeIssue("instance-internal-issues", "review", instance));
 		}
 	}
@@ -85,6 +85,7 @@ function collectEntryIssues(
 	entry: ScopeEntry,
 	root: LintableNode,
 	issues: LintIssue[],
+	hasTextStyles: boolean,
 ): void {
 	// Hidden layers get a single report; their other problems become moot once
 	// the layer is removed or shown.
@@ -94,6 +95,7 @@ function collectEntryIssues(
 	}
 
 	for (const rule of NODE_RULES) {
+		if (!hasTextStyles && rule.id === "missing-text-style") continue;
 		for (const target of rule.findTargets(entry, root)) {
 			issues.push(makeIssue(rule.id, rule.severity, target));
 		}
@@ -103,9 +105,14 @@ function collectEntryIssues(
 function hasInternalIssues(
 	instance: LintableNode,
 	root: LintableNode,
+	hasTextStyles: boolean,
 ): boolean {
 	return walkInstanceInternals(instance).some((entry) =>
-		NODE_RULES.some((rule) => rule.findTargets(entry, root).length > 0),
+		NODE_RULES.some(
+			(rule) =>
+				(hasTextStyles || rule.id !== "missing-text-style") &&
+				rule.findTargets(entry, root).length > 0,
+		),
 	);
 }
 

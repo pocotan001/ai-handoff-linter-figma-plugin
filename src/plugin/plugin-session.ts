@@ -252,7 +252,10 @@ export class PluginSession {
 		const tokenCatalog = await this.readTokenCatalog();
 		const lintable = toLintableNode(target, tokenCatalog);
 		this.currentTargetNodeIds = collectNodeIds(lintable);
-		const rawResult = lintNode(lintable);
+		const rawResult = lintNode(
+			lintable,
+			tokenCatalog.some((token) => token.type === "textStyle"),
+		);
 		const result = {
 			rootNodeId: rawResult.rootNodeId,
 			rootNodeName: rawResult.rootNodeName,

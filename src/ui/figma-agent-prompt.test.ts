@@ -39,4 +39,23 @@ describe("createFigmaAgentPrompt", () => {
 		expect(prompt).toContain("[Warning] Group 1");
 		expect(prompt).toContain("Recommendation:");
 	});
+
+	it("excludes review findings", () => {
+		const prompt = createFigmaAgentPrompt({
+			issues: [
+				issue,
+				{
+					...issue,
+					id: "absolute-positioning:1:3",
+					nodeId: "1:3",
+					nodeName: "Decorative overlay",
+					severity: "review",
+				},
+			],
+			targetName: "Checkout",
+			t: messages.en,
+		});
+
+		expect(prompt).not.toContain("Decorative overlay");
+	});
 });
