@@ -34,6 +34,9 @@ export function IssueList({
 	t: Messages;
 }) {
 	const activeIssues = issues.filter((issue) => !issue.waiver);
+	const actionableIssues = activeIssues.filter(
+		(issue) => issue.severity !== "review",
+	);
 	const ignoredIssues = issues.filter((issue) => issue.waiver);
 	const issueGroups = groupIssuesForTabs(activeIssues, ignoredIssues);
 	const score =
@@ -71,7 +74,7 @@ export function IssueList({
 						<MousePointer2Icon data-icon="inline-start" aria-hidden="true" />
 						<span>{t.runLint}</span>
 					</Button>
-					{activeIssues.length > 0 && lintTargetName && targetId ? (
+					{actionableIssues.length > 0 && lintTargetName && targetId ? (
 						<FigmaAgentRepair
 							issues={activeIssues}
 							targetId={targetId}

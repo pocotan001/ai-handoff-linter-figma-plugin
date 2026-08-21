@@ -11,6 +11,7 @@ export function createFigmaAgentPrompt({
 	t: Messages;
 }): string {
 	const items = issues
+		.filter((issue) => issue.severity !== "review")
 		.map((issue) => {
 			const copy = translateIssueCopy(issue, t);
 			return `- [${formatSeverity(issue.severity, t)}] ${issue.nodeName}\n  ${copy.message}\n  ${t.agentRecommendation}: ${copy.recommendation}`;

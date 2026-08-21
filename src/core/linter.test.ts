@@ -278,6 +278,22 @@ describe("lintNode", () => {
 		);
 	});
 
+	it("does not flag missing text styles when the file has none", () => {
+		const result = lintNode(
+			node({
+				layoutMode: "VERTICAL",
+				children: [
+					node({ id: "1:2", name: "Label", type: "TEXT", hasTextStyle: false }),
+				],
+			}),
+			false,
+		);
+
+		expect(result.issues.map((issue) => issue.ruleId)).not.toContain(
+			"missing-text-style",
+		);
+	});
+
 	it("flags image layers with generic names as image-without-alt-hint", () => {
 		const result = lintNode(
 			node({
@@ -365,7 +381,11 @@ describe("lintNode", () => {
 		const l1 = node({ id: "1:2", name: "L1", type: "FRAME", children: [l2] });
 		const result = lintNode(node({ layoutMode: "VERTICAL", children: [l1] }));
 		expect(result.issues).toContainEqual(
-			expect.objectContaining({ ruleId: "deep-nesting", nodeId: "1:7" }),
+			expect.objectContaining({
+				ruleId: "deep-nesting",
+				severity: "review",
+				nodeId: "1:7",
+			}),
 		);
 	});
 
@@ -437,6 +457,12 @@ describe("lintNode", () => {
 
 		expect(result.issues.map((issue) => issue.ruleId)).toEqual(
 			expect.arrayContaining(["prefer-variables-or-styles"]),
+		);
+		expect(result.issues).toContainEqual(
+			expect.objectContaining({
+				ruleId: "prefer-variables-or-styles",
+				severity: "review",
+			}),
 		);
 		expect(result.issues.map((issue) => issue.ruleId)).not.toContain(
 			"semantic-layer-name",

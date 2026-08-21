@@ -73,7 +73,7 @@ export const NODE_RULES: NodeRule[] = [
 	},
 	{
 		id: "deep-nesting",
-		severity: "warning",
+		severity: "review",
 		// Only the shallowest offending node per branch is reported; deeper nodes
 		// are covered by fixing it.
 		findTargets: ({ node, depth }) =>
@@ -152,7 +152,7 @@ export const NODE_RULES: NodeRule[] = [
 	},
 	{
 		id: "prefer-variables-or-styles",
-		severity: "warning",
+		severity: "review",
 		findTargets: ({ node }) =>
 			own(node, node.hasRawVisualValue === true && !hasTokenReference(node)),
 	},
